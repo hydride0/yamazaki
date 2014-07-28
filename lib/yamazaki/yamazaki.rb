@@ -20,7 +20,7 @@ module Yamazaki
 			lrss = RSS::Parser.parse(open(lurl))
 			puts "Last 5 torrents on Nyaa (#{Time.now.hour}:#{Time.now.min})\n\n".cyan.bold
 			0.upto(4) { |no|
-				puts "#{(no+1).to_s} #{lrss.items[no].title}\n"
+				puts "#{(no+1).to_s.black.cyan} #{lrss.items[no].title.bold} #{lrss.items[n].pubDate.strftime('%m/%d/%Y %H:%M').color(50)}}\n"
 			}	
 			num = Yamazaki.prompt
 			abort if num > 5 || num < 0
@@ -40,7 +40,7 @@ module Yamazaki
 			rss = RSS::Parser.parse(open(url))
 			abort if key.empty? || rss.items.empty?
 			0.upto(rss.items.size-1) { |n|
-				puts "#{(n+1).to_s.black.yellow} #{'nyaa/'.magenta.bold}#{rss.items[n].title.bold} #{rss.items[n].pubDate.strftime('%m/%d/%Y %H:%M').green}\n\t#{rss.items[n].description}"
+				puts "#{(n+1).to_s.black.cyan} #{rss.items[n].title.bold} #{rss.items[n].pubDate.strftime('%m/%d/%Y %H:%M').color(50)}\n\t#{rss.items[n].description}"
 			}
 			num = Yamazaki.prompt
 			abort if num > rss.items.size || num < 0
