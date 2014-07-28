@@ -11,8 +11,7 @@
 ##
 ## 0. You just DO WHAT THE FUCK YOU WANT TO.
 ##
-
-class Yamazaki
+module Yamazaki
 	def self.version
 		'0.0.1'
 	end
