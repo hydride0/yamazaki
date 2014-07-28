@@ -14,4 +14,7 @@ Gem::Specification.new { |s|
 	s.executables   = 'yam'
 	s.has_rdoc      = false
 	s.licenses      = 'WTFPL'
+
+	s.add_runtime_dependency 'colorb'
+	s.add_runtime_dependency 'rss'
 }
