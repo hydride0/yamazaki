@@ -16,5 +16,4 @@ Gem::Specification.new { |s|
 	s.licenses      = 'WTFPL'
 
 	s.add_runtime_dependency 'colorb'
-	s.add_runtime_dependency 'rss'
 }
