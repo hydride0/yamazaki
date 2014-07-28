@@ -12,6 +12,13 @@ Description
 
 ----------
 
+Install
+-------
+
+    gem install yamazaki
+
+----------
+
 Usage
 -----
 
