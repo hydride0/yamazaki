@@ -12,7 +12,5 @@
 ## 0. You just DO WHAT THE FUCK YOU WANT TO.
 ##
 module Yamazaki
-	def self.version
-		'0.0.2'
-	end
+  VERSION = '0.1'
 end
