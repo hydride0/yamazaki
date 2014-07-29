@@ -20,7 +20,7 @@ module Yamazaki
 
 		def list(n)
 			n = 5 if n.to_i == 0
-			
+
 			lrss = RSS::Parser.parse(open(LIST))
 			puts "Last #{n} torrents on Nyaa (#{Time.now.hour}:#{Time.now.min})\n\n".cyan.bold
 			return if lrss.items.empty?
@@ -42,7 +42,7 @@ module Yamazaki
 
 		def download(ary)
 			num = Yamazaki.prompt
-			Yamazaki.download_torrent(ary[num].title, ary[num].link) if num >= 0 || num <= 5
+			Yamazaki.download_torrent(ary[num].title, ary[num].link) if num >= 0 && num <= 5
 		end
 
 		def download_torrent(name, link)
