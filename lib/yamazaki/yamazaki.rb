@@ -18,12 +18,14 @@ module Yamazaki
 		SEARCH = 'http://www.nyaa.se/?page=rss&term='
 		DEFAULT_WATCH_DIR = File.join ENV['HOME'], '.watch'
 
-		def list
+		def list(n)
+			n = 5 if n.to_i == 0
+			
 			lrss = RSS::Parser.parse(open(LIST))
-			puts "Last 5 torrents on Nyaa (#{Time.now.hour}:#{Time.now.min})\n\n".cyan.bold
+			puts "Last #{n} torrents on Nyaa (#{Time.now.hour}:#{Time.now.min})\n\n".cyan.bold
 			return if lrss.items.empty?
 
-			0.upto(4) { |no| puts print_item(lrss.items[no], no) }
+			0.upto(n-1) { |no| puts print_item(lrss.items[no], no) }
 			Yamazaki.download lrss.items
 		end
 		

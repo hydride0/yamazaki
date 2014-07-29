@@ -31,8 +31,8 @@ opts = OptionParser.new { |opts|
 		exit
 	end
         
-	opts.on( '-l', '--list', "Show last 5 episodes." ) do
-		Yamazaki.list
+	opts.on( '-l', '--list [n=5]', "Show last n episodes." ) do |n|
+		Yamazaki.list(n.to_i)
 	end
 }
 
