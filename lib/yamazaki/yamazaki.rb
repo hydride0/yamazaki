@@ -40,7 +40,9 @@ module Yamazaki
 
 		def download_torrent(name, link)
 			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
-			open("#{watch_dir}/#{name}.torrent", ?w) { |out| out.write(open(link).read) }
+			filename = "#{watch_dir}/#{name}.torrent"
+
+			open(filename, ?w) { |out| out.write(open(link).read) } unless File.exists?(filename)
 		end
 
 	private
