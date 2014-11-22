@@ -16,7 +16,6 @@ module Yamazaki
     module Core
         LIST = 'http://www.nyaa.se/?page=rss&cats=1_0'
         SEARCH = 'http://www.nyaa.se/?page=rss&term='
-        DEFAULT_WATCH_DIR = File.join ENV['HOME'], '.watch'
 
         def list(n)
             [].tap do |items|

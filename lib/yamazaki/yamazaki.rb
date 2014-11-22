@@ -16,6 +16,8 @@ module Yamazaki
 	class << self
 		include Core
 
+		DEFAULT_WATCH_DIR = File.join ENV['HOME'], '.watch'
+
 		def list(n)
 			n = 5 if n.to_i == 0
 
