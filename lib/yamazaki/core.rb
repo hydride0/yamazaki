@@ -17,10 +17,11 @@ module Yamazaki
         LIST = 'http://www.nyaa.se/?page=rss&cats=1_0'
         SEARCH = 'http://www.nyaa.se/?page=rss&term='
 
-        def list(n)
+        def list(n = nil)
             [].tap do |items|
                 lrss = RSS::Parser.parse(open(LIST))
 
+                n = items.size if n == nil
                 0.upto(n-1) { |no| items << Torrent.from_rss(lrss.items[no], no) }
             end
         end
