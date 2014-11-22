@@ -38,16 +38,16 @@ module Yamazaki
 			download items
 		end
 
+		def download_torrent(name, link)
+			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
+			open("#{watch_dir}/#{name}.torrent", ?w) { |out| out.write(open(link).read) }
+		end
+
 	private
 
 		def download(ary)
 			num = prompt
 			download_torrent(ary[num].title, ary[num].link) if num >= 0 && num <= 5
-		end
-
-		def download_torrent(name, link)
-			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
-			open("#{watch_dir}/#{name}.torrent", ?w) { |out| out.write(open(link).read) }
 		end
 
 		def prompt
