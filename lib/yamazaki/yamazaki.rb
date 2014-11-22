@@ -14,44 +14,38 @@
 
 module Yamazaki
 	class << self
-		LIST = 'http://www.nyaa.se/?page=rss&cats=1_0'
-		SEARCH = 'http://www.nyaa.se/?page=rss&term='
-		DEFAULT_WATCH_DIR = File.join ENV['HOME'], '.watch'
+		include Core
 
 		def list(n)
 			n = 5 if n.to_i == 0
 
-			lrss = RSS::Parser.parse(open(LIST))
+			items = super(n)
+
 			puts "Last #{n} torrents on Nyaa (#{Time.now.hour}:#{Time.now.min})\n\n".cyan.bold
-			return if lrss.items.empty?
+			return if items.empty?
 
-			0.upto(n-1) { |no| puts print_item(lrss.items[no], no) }
-			Yamazaki.download lrss.items
+			items.each { |item| puts item.to_s }
+			download items
 		end
-		
+
 		def search(key)
-			raise ArgumentError, 'Valid keywords were expected.' if key.to_s.strip.empty?
+			items = super(key)
+			return if items.empty?
 
-			url = "#{SEARCH}#{key.gsub(' ', ?+)}"
-			rss = RSS::Parser.parse(open(url))
-			return if rss.items.empty?
-
-			0.upto(rss.items.size-1) { |n| puts "#{print_item(rss.items[n], n)}\t#{rss.items[n].description}" }
-			Yamazaki.download rss.items
+			items.each { |item| puts "#{item.to_s}\t#{item.description}" }
+			download items
 		end
+
+	private
 
 		def download(ary)
-			num = Yamazaki.prompt
-			Yamazaki.download_torrent(ary[num].title, ary[num].link) if num >= 0 && num <= 5
+			num = prompt
+			download_torrent(ary[num].title, ary[num].link) if num >= 0 && num <= 5
 		end
 
 		def download_torrent(name, link)
 			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
 			open("#{watch_dir}/#{name}.torrent", ?w) { |out| out.write(open(link).read) }
-		end
-
-		def print_item(item, n)
-			"#{(n+1).to_s.black.cyan} #{item.title.bold} #{item.pubDate.strftime('%m/%d/%Y %H:%M').color(50)}\n"
 		end
 
 		def prompt
