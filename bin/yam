@@ -18,13 +18,11 @@ require 'optparse'
 require 'colorb'
 
 WATCH_DIR = File.join ENV['HOME'], '.watch'
-options = { :keyws => '' }
 
-OptionParser.new { |opts|
+opts = OptionParser.new { |opts|
 	opts.banner = "#{"Yamazaki - Moe doesn't exist in the 3D form!".cyan.bold}\n#{'Usage: yam <command> <arg>'.bold}"
         
 	opts.on( '-s', '--search KEYWORDS', "Search with given keywords." ) do |key|
-		options[:keyws] = key
 		Yamazaki.search(key)
 	end
         
@@ -33,7 +31,13 @@ OptionParser.new { |opts|
 		exit
 	end
         
-	opts.on( '-l', '--list', "Show last 5 episodes." ) do
-		Yamazaki.list
+	opts.on( '-l', '--list [n=5]', "Show last n episodes." ) do |n|
+		Yamazaki.list(n.to_i)
 	end
-}.parse!
+}
+
+if ARGV.any?
+	opts.parse!
+else
+	puts opts.banner
+end

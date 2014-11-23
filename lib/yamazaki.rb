@@ -17,5 +17,7 @@ require 'rss'
 require 'colorb'
 require 'optparse'
 
+require 'yamazaki/torrent'
+require 'yamazaki/core'
 require 'yamazaki/yamazaki'
 require 'yamazaki/version'

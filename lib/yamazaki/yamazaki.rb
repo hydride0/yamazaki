@@ -14,38 +14,47 @@
 
 module Yamazaki
 	class << self
+		include Core
 
-		def list
-			lurl = 'http://www.nyaa.se/?page=rss&cats=1_0'
-			lrss = RSS::Parser.parse(open(lurl))
-			puts "Last 5 torrents on Nyaa (#{Time.now.hour}:#{Time.now.min})\n\n".cyan.bold
-			0.upto(4) { |no|
-				puts "#{(no+1).to_s.black.cyan} #{lrss.items[no].title.bold} #{lrss.items[no].pubDate.strftime('%m/%d/%Y %H:%M').color(50)}\n"
-			}	
-			num = Yamazaki.prompt
-			abort if num > 5 || num < 0
-			Yamazaki.download lrss.items[num]
+		DEFAULT_WATCH_DIR = File.join ENV['HOME'], '.watch'
+
+		def list(n)
+			n = 5 if n.to_i == 0
+
+			items = super(n)
+
+			puts "Last #{n} torrents on Nyaa (#{Time.now.hour}:#{Time.now.min})\n\n".cyan.bold
+			return if items.empty?
+
+			items.each { |item| puts item.to_s }
+			download items
+		end
+
+		def search(key)
+			items = super(key)
+			return if items.empty?
+
+			items.each { |item| puts "#{item.to_s}\t#{item.description}" }
+			download items
+		end
+
+		def download_torrent(name, link)
+			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
+			filename = "#{watch_dir}/#{name}.torrent"
+
+			open(filename, ?w) { |out| out.write(open(link).read) } unless File.exists?(filename)
+		end
+
+	private
+
+		def download(ary)
+			num = prompt
+			download_torrent(ary[num].title, ary[num].link) if num >= 0 && num <= 5
 		end
 
 		def prompt
 			print '>> '
 			STDIN.gets.to_i - 1
-		end
-
-		def download(ary)
-			open("#{WATCH_DIR}/#{ary.title}.torrent", 'w') { |out| out.write(open(ary.link).read) }
-		end
-		
-		def search(key)
-			url = "http://www.nyaa.se/?page=rss&term=#{key.gsub(' ', ?+)}"
-			rss = RSS::Parser.parse(open(url))
-			abort if key.empty? || rss.items.empty?
-			0.upto(rss.items.size-1) { |n|
-				puts "#{(n+1).to_s.black.cyan} #{rss.items[n].title.bold} #{rss.items[n].pubDate.strftime('%m/%d/%Y %H:%M').color(50)}\n\t#{rss.items[n].description}"
-			}
-			num = Yamazaki.prompt
-			abort if num > rss.items.size || num < 0
-			Yamazaki.download rss.items[num]
 		end
 	end
 end
