@@ -29,13 +29,13 @@ module Yamazaki
             "#{(@index + 1).to_s.black.cyan} #{@title.bold} #{@pub_date.strftime('%m/%d/%Y %H:%M').color(50)}\n"
         end
 
-				def info
-					matched = @title.gsub(?_,' ').scan(/\[(.+?)\] (.+?) - ([0-9]+).+?\[([a-zA-Z]+)\]/).flatten
-					matched << @title.match(/([0-9]+p)/).to_s
-					@infos = Hash[[:fansub, :title, :episode, :codec, :res].zip(matched)]
-				end
+	def info
+		matched = @title.gsub(?_,' ').scan(/\[(.+?)\] (.+?) - ([0-9]+).+?\[([a-zA-Z]+)\]/).flatten
+		matched << @title.match(/([0-9]+p)/).to_s
+		@infos = Hash[[:fansub, :title, :episode, :codec, :res].zip(matched)]
+	end
 					
-				class << self
+	class << self
             def from_rss(hash, index)
                 Torrent.new(hash.title, hash.description, hash.pubDate, hash.link, index)
             end
