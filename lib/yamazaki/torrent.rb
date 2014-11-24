@@ -31,7 +31,7 @@ module Yamazaki
 
 	def info
 		matched = @title.gsub(?_,' ').scan(/\[(.+?)\] (.+?) - ([0-9]+).+?\[([a-zA-Z]+)\]/).flatten
-		matched << @title.match(/([0-9]+p)/).to_s
+		matched << @title.match(/([0-9]+[pP])/).to_s
 		@infos = Hash[[:fansub, :title, :episode, :codec, :res].zip(matched)]
 	end
 					
