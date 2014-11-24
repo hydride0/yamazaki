@@ -17,28 +17,28 @@ module Yamazaki
         attr_reader :title, :description, :pub_date, :link, :index
 
         def initialize(title, description, pub_date, link, index = 0)
-            @title = title
-            @description = description
-            @pub_date = pub_date
-            @link = link
-            @index = index
+        	@title = title
+        	@description = description
+        	@pub_date = pub_date
+        	@link = link
+        	@index = index
 						@infos = {}
         end
 
         def to_s
-            "#{(@index + 1).to_s.black.cyan} #{@title.bold} #{@pub_date.strftime('%m/%d/%Y %H:%M').color(50)}\n"
+        	"#{(@index + 1).to_s.black.cyan} #{@title.bold} #{@pub_date.strftime('%m/%d/%Y %H:%M').color(50)}\n"
         end
 
-				def info
-					matched = @title.gsub(?_,' ').scan(/\[(.+?)\] (.+?) - ([0-9]+).+?\[([a-zA-Z]+)\]/).flatten
-					matched << @title.match(/([0-9]+[pP])/).to_s
-					@infos = Hash[[:fansub, :title, :episode, :codec, :res].zip(matched)]
-				end
+	def info
+		matched = @title.gsub(?_,' ').scan(/\[(.+?)\] (.+?) - ([0-9]+).+?\[([a-zA-Z]+)\]/).flatten
+		matched << @title.match(/([0-9]+[pP])/).to_s
+		@infos = Hash[[:fansub, :title, :episode, :codec, :res].zip(matched)]
+	end
 					
-				class << self
-          def from_rss(hash, index)
-          	Torrent.new(hash.title, hash.description, hash.pubDate, hash.link, index)
-          end
+	class << self
+        	def from_rss(hash, index)
+          		Torrent.new(hash.title, hash.description, hash.pubDate, hash.link, index)
+          	end
         end
     end
 end
