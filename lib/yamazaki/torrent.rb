@@ -22,7 +22,7 @@ module Yamazaki
         	@pub_date = pub_date
         	@link = link
         	@index = index
-						@infos = {}
+					@infos = {}
         end
 
         def to_s
