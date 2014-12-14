@@ -38,11 +38,15 @@ module Yamazaki
 			download items
 		end
 
-		def download_torrent(name, link)
+		def download_torrent(name, link, force = false)
 			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
 			filename = "#{watch_dir}/#{name}.torrent"
 
-			open(filename, ?w) { |out| out.write(open(link).read) } unless File.exists?(filename)
+			if force != true && File.exists?(filename)
+				false
+			else
+				File.open(filename, ?w) { |torrent_file| torrent_file.write(open(link).read) }
+			end
 		end
 
 	private
