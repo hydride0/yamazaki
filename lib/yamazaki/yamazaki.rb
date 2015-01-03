@@ -42,7 +42,7 @@ module Yamazaki
 			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
 			filename = "#{watch_dir}/#{name}.torrent"
 
-			if force != true && File.exists?(filename)
+			if force != true && (File.exists?(filename) || File.exists?("#{filename}.imported"))
 				false
 			else
 				File.open(filename, ?w) { |torrent_file| torrent_file.write(open(link).read) }
