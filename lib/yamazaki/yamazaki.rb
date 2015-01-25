@@ -39,13 +39,15 @@ module Yamazaki
 		end
 
 		def download_torrent(name, link, force = false)
-			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
-			filename = "#{watch_dir}/#{name}.torrent"
+			name.gsub! '/', '-'
 
-			if force != true && (File.exists?(filename) || File.exists?("#{filename}.imported"))
+			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
+			filename  = "#{watch_dir}/#{name}.torrent"
+
+			if force != true && (File.exists?(filename) || File.exists?("#{filename}.imported") || File.exists?("#{filename}.loaded"))
 				false
 			else
-				File.open(filename, ?w) { |torrent_file| torrent_file.write(open(link).read) }
+				File.open(filename, 'wb') { |torrent_file| torrent_file.write(open(link).read) }
 			end
 		end
 
@@ -53,7 +55,7 @@ module Yamazaki
 
 		def download(ary)
 			num = prompt
-			download_torrent(ary[num].title, ary[num].link) if num >= 0 && num <= 5
+			download_torrent(ary[num].title, ary[num].link) if num >= 0 && num <= ary.length
 		end
 
 		def prompt
