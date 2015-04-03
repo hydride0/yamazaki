@@ -17,6 +17,7 @@ module Yamazaki
 		include Core
 
 		DEFAULT_WATCH_DIR = File.join ENV['HOME'], '.watch'
+		DEFAULT_TRACK_FILE = File.join ENV['HOME'], '.yam.db'
 
 		def list(n)
 			n = 5 if n.to_i == 0
@@ -27,7 +28,7 @@ module Yamazaki
 			return if items.empty?
 
 			items.each { |item| puts item.to_s }
-			download items
+			prompt_download items
 		end
 
 		def search(key)
@@ -35,7 +36,7 @@ module Yamazaki
 			return if items.empty?
 
 			items.each { |item| puts "#{item.to_s}\t#{item.description}" }
-			download items
+			prompt_download items
 		end
 
 		def download_torrent(name, link, force = false)
@@ -44,16 +45,35 @@ module Yamazaki
 			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
 			filename  = "#{watch_dir}/#{name}.torrent"
 
-			if force != true && (File.exists?(filename) || File.exists?("#{filename}.imported") || File.exists?("#{filename}.loaded"))
+			if force != true && torrent_downloaded?(filename)
 				false
 			else
-				File.open(filename, 'wb') { |torrent_file| torrent_file.write(open(link).read) }
+				download(filename)
 			end
+		end
+
+	protected
+
+		def torrent_downloaded?(filename)
+			(@db ||= load_database).include?(filename)
+		end
+
+		def download(filename)
+			File.open(filename, 'wb') do |torrent_file|
+				torrent_file.write(open(link).read)
+			end
+
+			(@db ||= load_database) << filename
 		end
 
 	private
 
-		def download(ary)
+		def load_database
+			track_file = defined?(TRACK_FILE) == 'constant' ? TRACK_FILE : DEFAULT_TRACK_FILE
+			@db = Database.new(track_file)
+		end
+
+		def prompt_download(ary)
 			num = prompt
 			download_torrent(ary[num].title, ary[num].link) if num >= 0 && num <= ary.length
 		end
