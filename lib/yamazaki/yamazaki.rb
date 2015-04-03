@@ -51,7 +51,7 @@ module Yamazaki
 			end
 		end
 
-	private
+		private
 
 		def download(ary)
 			num = prompt
