@@ -48,7 +48,7 @@ module Yamazaki
 			if force != true && torrent_downloaded?(filename)
 				false
 			else
-				download(filename)
+				download(filename, link)
 			end
 		end
 
@@ -58,7 +58,7 @@ module Yamazaki
 			(@db ||= load_database).include?(filename)
 		end
 
-		def download(filename)
+		def download(filename, link)
 			File.open(filename, 'wb') do |torrent_file|
 				torrent_file.write(open(link).read)
 			end

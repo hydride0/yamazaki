@@ -13,31 +13,30 @@
 ##
 
 module Yamazaki
-  class Database
-    def initialize(track_file, save_on_push = true)
-      @track_file = track_file
-      @save_on_push = save_on_push
+	class Database
+		def initialize(track_file, save_on_push = true)
+			@track_file = track_file
+			@save_on_push = save_on_push
 
-      @db = if File.exists?(track_file)
-        JSON.parse(File.read(track_file))
-      else
-        []
-      end
-    end
+			@db = Oj.load(File.read(track_file)) if File.exists?(track_file)
+			@db ||= []
+		end
 
-    def <<(filename)
-      @db << { filename: filename, added_at: Time.now }
-      save! if @save_on_push
-    end
+		def <<(filename)
+			@db << { filename: filename, added_at: Time.now }
+			save! if @save_on_push
+		end
 
-    def include?(filename)
-      @db.count { |t| t[:filename] == filename } > 0
-    end
+		def include?(filename)
+			@db.count { |t| t[:filename] == filename } > 0
+		end
 
-    def save!
-      File.open(@track_file, ?w) do |f|
-        f.write(JSON.generate(@db))
-      end
-    end
-  end
+		private
+
+		def save!
+			File.open(@track_file, ?w) do |f|
+				f.write(Oj.dump(@db))
+			end
+		end
+	end
 end
