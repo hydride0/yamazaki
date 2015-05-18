@@ -18,6 +18,7 @@ module Yamazaki
 			@track_file = track_file
 			@save_on_push = save_on_push
 
+                        puts "[yamazaki, initialize] track_file: #{track_file}"
 			@db = Oj.load(File.read(track_file)) if File.exists?(track_file)
 			@db ||= []
 		end
@@ -34,6 +35,7 @@ module Yamazaki
 		private
 
 		def save!
+                        puts "[yamazaki]  #{@track_file}"
 			File.open(@track_file, ?w) do |f|
 				f.write(Oj.dump(@db))
 			end
