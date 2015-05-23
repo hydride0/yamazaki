@@ -39,6 +39,11 @@ module Yamazaki
 			prompt_download items
 		end
 
+               def load_database
+                        track_file = defined?(TRACK_FILE) == 'constant' ? TRACK_FILE : DEFAULT_TRACK_FILE
+                        @db = Database.new(track_file)
+                end
+
 		def download_torrent(name, link, force = false)
 			name.gsub! '/', '-'
 
@@ -67,11 +72,6 @@ module Yamazaki
 		end
 
 	private
-
-		def load_database
-			track_file = defined?(TRACK_FILE) == 'constant' ? TRACK_FILE : DEFAULT_TRACK_FILE
-			@db = Database.new(track_file)
-		end
 
 		def prompt_download(ary)
 			num = prompt
