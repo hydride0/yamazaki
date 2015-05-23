@@ -40,7 +40,6 @@ module Yamazaki
 		end
 
                def load_database
-                        puts "[yamazaki, load_database] defined? #{defined?(TRACK_FILE)}"
                         track_file = defined?(TRACK_FILE) == 'constant' ? TRACK_FILE : DEFAULT_TRACK_FILE
                         @db = Database.new(track_file)
                 end
