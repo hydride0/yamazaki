@@ -14,23 +14,23 @@
 
 module Yamazaki
 	module Core
-		LIST = 'http://www.nyaa.se/?page=rss&cats=1_0'
-		SEARCH = 'http://www.nyaa.se/?page=rss&term='
+		LIST   = 'http://www.nyaa.se/?page=rss&cats=1_0'.freeze
+		SEARCH = 'http://www.nyaa.se/?page=rss&term='.freeze
 
 		def list(n = nil)
 			[].tap do |items|
 				lrss = RSS::Parser.parse(open(LIST))
 
-				n = items.size if n == nil
+				n ||= items.size
 				0.upto(n-1) { |no| items << Torrent.from_rss(lrss.items[no], no) }
 			end
 		end
 
 		def search(key)
-			raise ArgumentError, 'Valid keywords were expected.' if key.to_s.strip.empty?
+			raise ArgumentError, 'Valid keywords were expected.'.freeze if key.to_s.strip.empty?
 
 			[].tap do |items|
-				url = "#{SEARCH}#{key.gsub(' ', ?+)}"
+				url = "#{SEARCH}#{key.gsub(' '.freeze, ?+)}"
 				rss = RSS::Parser.parse(open(url))
 
 				0.upto(rss.items.size-1) { |n| items << Torrent.from_rss(rss.items[n], n) }

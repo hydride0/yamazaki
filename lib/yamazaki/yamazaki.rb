@@ -16,7 +16,7 @@ module Yamazaki
 	class << self
 		include Core
 
-		DEFAULT_WATCH_DIR = File.join ENV['HOME'], '.watch'
+		DEFAULT_WATCH_DIR  = File.join ENV['HOME'], '.watch'
 		DEFAULT_TRACK_FILE = File.join ENV['HOME'], '.yam.db'
 
 		def list(n)
@@ -39,15 +39,15 @@ module Yamazaki
 			prompt_download items
 		end
 
-               def load_database
-                        track_file = defined?(TRACK_FILE) == 'constant' ? TRACK_FILE : DEFAULT_TRACK_FILE
-                        @db = Database.new(track_file)
-                end
+		def load_database
+			track_file = defined?(TRACK_FILE) == 'constant'.freeze ? TRACK_FILE : DEFAULT_TRACK_FILE
+			@db = Database.new(track_file)
+		end
 
 		def download_torrent(name, link, force = false)
-			name.gsub! '/', '-'
+			name.gsub! '/'.freeze, '-'.freeze
 
-			watch_dir = defined?(WATCH_DIR) == 'constant' ? WATCH_DIR : DEFAULT_WATCH_DIR
+			watch_dir = defined?(WATCH_DIR) == 'constant'.freeze ? WATCH_DIR : DEFAULT_WATCH_DIR
 			filename  = "#{watch_dir}/#{name}.torrent"
 
 			if force != true && torrent_downloaded?(filename)
@@ -64,7 +64,7 @@ module Yamazaki
 		end
 
 		def download(filename, link)
-			File.open(filename, 'wb') do |torrent_file|
+			File.open(filename, 'wb'.freeze) do |torrent_file|
 				torrent_file.write(open(link).read)
 			end
 
@@ -79,7 +79,7 @@ module Yamazaki
 		end
 
 		def prompt
-			print '>> '
+			print '>> '.freeze
 			STDIN.gets.to_i - 1
 		end
 	end
