@@ -17,5 +17,5 @@ Gem::Specification.new { |s|
 
 	s.add_dependency  'colorb', '~> 0'
 	s.add_dependency  'oj',     '~> 2.1'
-	s.add_dependdency 'rspec',  '~> 3.3'
+	s.add_dependency  'rspec',  '~> 3.3'
 }
