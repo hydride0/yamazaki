@@ -15,16 +15,16 @@
 module Yamazaki
 	class Database
 		def initialize(track_file, save_on_push = true)
-			@track_file = track_file
+			@track_file   = track_file
 			@save_on_push = save_on_push
 
-			@db = Oj.load(File.read(track_file)) if File.exists?(track_file)
+			@db   = Oj.load(File.read(track_file)) if File.exists?(track_file)
 			@db ||= []
 		end
 
 		def <<(filename)
 			@db << { filename: filename, added_at: Time.now }
-			save! if @save_on_push
+			save if @save_on_push
 		end
 
 		def include?(filename)
@@ -33,7 +33,7 @@ module Yamazaki
 
 		private
 
-		def save!
+		def save
 			File.open(@track_file, ?w) do |f|
 				f.write(Oj.dump(@db))
 			end

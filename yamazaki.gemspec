@@ -15,6 +15,7 @@ Gem::Specification.new { |s|
 	s.has_rdoc      = false
 	s.licenses      = 'WTFPL'
 
-	s.add_dependency 'colorb', '~> 0'
-	s.add_dependency 'oj', '~> 2.1'
+	s.add_dependency  'colorb', '~> 0'
+	s.add_dependency  'oj',     '~> 2.1'
+	s.add_dependency  'rspec',  '~> 3.3'
 }

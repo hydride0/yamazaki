@@ -17,15 +17,15 @@ module Yamazaki
 		attr_reader :title, :description, :pub_date, :link, :index
 
 		def initialize(title, description, pub_date, link, index = 0)
-			@title = title
+			@title       = title
 			@description = description
-			@pub_date = pub_date
-			@link = link
-			@index = index
+			@pub_date    = pub_date
+			@link        = link
+			@index       = index
 		end
 
 		def to_s
-			"#{(@index + 1).to_s.black.cyan} #{@title.bold} #{@pub_date.strftime('%m/%d/%Y %H:%M').color(50)}\n"
+			"#{(@index + 1).to_s.black.cyan} #{@title.bold} #{@pub_date.strftime('%m/%d/%Y %H:%M'.freeze).color(50)}\n"
 		end
 
 		class << self

@@ -22,16 +22,16 @@ WATCH_DIR = File.join ENV['HOME'], '.watch'
 opts = OptionParser.new { |opts|
 	opts.banner = "#{"Yamazaki - Moe doesn't exist in the 3D form!".cyan.bold}\n#{'Usage: yam <command> <arg>'.bold}"
 
-	opts.on( '-s', '--search KEYWORDS', "Search with given keywords." ) do |key|
+	opts.on( '-s', '--search KEYWORDS', 'Search with given keywords.' ) do |key|
 		Yamazaki.search(key)
 	end
 
-	opts.on( '-h', '--help', "Display this." ) do
+	opts.on( '-h', '--help', 'Display this.' ) do
 		puts opts
 		exit
 	end
 
-	opts.on( '-l', '--list [n=5]', "Show last n episodes." ) do |n|
+	opts.on( '-l', '--list [n=5]', 'Show last n episodes.' ) do |n|
 		Yamazaki.list(n.to_i)
 	end
 }
