@@ -15,13 +15,14 @@
 module Yamazaki
 	class Torrent
 		attr_reader :title, :description, :pub_date, :link, :index
-
-		def initialize(title, description, pub_date, link, index = 0)
+		attr_accessor :filename
+		def initialize(title, description, pub_date, link, index = 0, filename="")
 			@title       = title
 			@description = description
 			@pub_date    = pub_date
 			@link        = link
 			@index       = index
+                        @filename    = filename
 		end
 
 		def to_s

@@ -31,6 +31,10 @@ module Yamazaki
 			@db.count { |t| t[:filename] == filename } > 0
 		end
 
+		def size
+			@db.size
+		end
+
 		private
 
 		def save
