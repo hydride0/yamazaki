@@ -16,8 +16,9 @@ describe Yamazaki::Torrent do
         expect(torrent.index).to eq(0)
         expect(torrent.filename).to eq("")
       end
+    end
 
-    context 'default arguments are given a value'
+    context 'default arguments are given a value' do
       it 'sets filename correctly at torrent creation' do
         torrent = Yamazaki::Torrent.new("The Rolling Girls", ">Kyoto arc", "2015/10/13 21:42:33",
                                          "http://u.rl", 15, "/home/roxas/trg.torrent")
@@ -29,11 +30,11 @@ describe Yamazaki::Torrent do
         expect(torrent.index).to eq(3)
       end
 
-#      it 'raises ArgumentError with a negative index' do
-#        expect {
-#          Yamazaki::Torrent.new("ccc", "ddd", "2016/01/18 18:43:29", "https://u.rl", -5)
-#        }.to raise_error(ArgumentError) 
-#      end
+      it 'raises ArgumentError with a negative index' do
+        expect {
+          Yamazaki::Torrent.new("ccc", "ddd", "2016/01/18 18:43:29", "https://u.rl", -5)
+        }.to raise_error(ArgumentError) 
+      end
     end
 
   describe '#filename'

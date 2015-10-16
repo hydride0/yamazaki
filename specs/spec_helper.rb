@@ -12,9 +12,14 @@ def make_torrent(episode, options={})
   Yamazaki::Torrent.new(episode, description, pub_date, link, index, filename)
 end
 
-def prepare_db(torrents)
+def new_dbfile_path
   db_file_path = "/tmp/" + Base64.strict_encode64((Random.rand*255).to_s) + ".db"
   File.rm db_file_path if File.exists? db_file_path
+  db_file_path
+end
+
+def prepare_db(torrents)
+  db_file_path = new_dbfile_path()
   if torrents.size > 0
     db = Yamazaki::Database.new(db_file_path, save_on_push=true)
     torrents.each { |torrent| db << torrent.filename }

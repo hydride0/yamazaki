@@ -37,7 +37,9 @@ describe Yamazaki::Database do
         expect(db.include? "/home/pls/sword_art_online.torrent").to be_truthy()
       end
 
+
       it 'does not insert the same filename if already present' do
+        skip 'skip: if needed, a file can be re-downloaded, and we want it to be possible'
         track_file = prepare_db([])
         db = Yamazaki::Database.new(track_file)
         db << "/home/pls/sword_art_online.torrent"
