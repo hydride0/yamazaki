@@ -3,6 +3,8 @@ require_relative 'spec_helper'
 describe Yamazaki::Database do
 
   describe '#new' do
+    after { remove_databases }
+
     context 'when track file does not exist' do
       it 'is created correctly' do
         File.rm "./yam.db" if File.exists? "./yam.db"
@@ -28,6 +30,8 @@ describe Yamazaki::Database do
   end
   
   describe '#<<' do
+    after { remove_databases }
+
     context 'insertion behaviour' do
       it 'inserts a new filename into an empty database' do
         track_file = prepare_db([])
@@ -82,6 +86,8 @@ describe Yamazaki::Database do
   end
 
   describe '#include?' do
+    after { remove_databases }
+
     context 'when looking into an empty database' do
       it 'is not found inside the database' do
         track_file = prepare_db([])

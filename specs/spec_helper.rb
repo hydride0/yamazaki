@@ -1,6 +1,7 @@
 require 'yamazaki'
 require 'date'
 require 'base64'
+require 'fileutils'
 
 def make_torrent(episode, options={})
   description = options[:description] || "No description"
@@ -12,7 +13,7 @@ def make_torrent(episode, options={})
 end
 
 def new_dbfile_path
-  db_file_path = "/tmp/" + Base64.strict_encode64((Random.rand*255).to_s) + ".db"
+  db_file_path = "./dbfile_" + Base64.strict_encode64((Random.rand*255).to_s) + ".db"
   File.rm db_file_path if File.exists? db_file_path
   db_file_path
 end
@@ -24,4 +25,8 @@ def prepare_db(torrents)
     torrents.each { |torrent| db << torrent.filename }
   end
   db_file_path
+end
+
+def remove_databases
+  Dir.glob("./*.db").each {  |f| FileUtils.rm f }
 end
