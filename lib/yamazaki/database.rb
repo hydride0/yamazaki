@@ -20,15 +20,21 @@ module Yamazaki
 
 			@db   = Oj.load(File.read(track_file)) if File.exists?(track_file)
 			@db ||= []
+			@db.sort_by! { |t| t[:filename] }
 		end
 
 		def <<(filename)
 			@db << { filename: filename, added_at: Time.now }
+			@db.sort_by! { |t| t[:filename] }
 			save if @save_on_push
 		end
 
 		def include?(filename)
-			@db.count { |t| t[:filename] == filename } > 0
+			begin
+				@db.bsearch { |t| t[:filename] >= filename }[:filename] == filename
+			rescue
+				false 
+			end 
 		end
 
 		def size
