@@ -24,9 +24,11 @@ module Yamazaki
 		end
 
 		def <<(filename)
-			@db << { filename: filename, added_at: Time.now }
-			@db.sort_by! { |t| t[:filename] }
-			save if @save_on_push
+			unless self.include? filename
+				@db << { filename: filename, added_at: Time.now }
+				@db.sort_by! { |t| t[:filename] }
+				save if @save_on_push
+			end
 		end
 
 		def include?(filename)
