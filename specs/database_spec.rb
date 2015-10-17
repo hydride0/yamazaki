@@ -5,9 +5,9 @@ describe Yamazaki::Database do
   describe '#new' do
     context 'when track file does not exist' do
       it 'is created correctly' do
-        File.rm "/tmp/yam.db" if File.exists? "/tmp/yam.db"
+        File.rm "./yam.db" if File.exists? "./yam.db"
         db = Yamazaki::Database.new("/tmp/yam.db", false)
-        expect(db.size).to eq(0)
+        expect(db).to be_empty
       end
     end
 
@@ -15,7 +15,7 @@ describe Yamazaki::Database do
       it 'is loaded correctly if the given `track_file` contains something' do
         track_file = prepare_db([make_torrent("Nisekoi 01x11", {filename:"/home/roxas/nisenever_s1ep11.torrent"})])
         db = Yamazaki::Database.new(track_file)
-        expect(db.size).not_to eq(0)
+        expect(db).not_to be_empty
         expect(db.include? "/home/roxas/nisenever_s1ep11.torrent").to be_truthy()
       end
 
@@ -33,7 +33,7 @@ describe Yamazaki::Database do
         track_file = prepare_db([])
         db = Yamazaki::Database.new(track_file)
         db << "/home/pls/sword_art_online.torrent"
-        expect(db.size).to eq(1)
+        expect(db).not_to be_empty
         expect(db.include? "/home/pls/sword_art_online.torrent").to be_truthy()
       end
 
@@ -44,6 +44,8 @@ describe Yamazaki::Database do
         db = Yamazaki::Database.new(track_file)
         db << "/home/pls/sword_art_online.torrent"
         db << "/home/pls/sword_art_online.torrent"
+        #if we cannot have several duplicates, the size
+        #should always be 1
         expect(db.size).to be(1)
       end
     end
@@ -57,6 +59,7 @@ describe Yamazaki::Database do
         db = Yamazaki::Database.new(track_file)
         db << "/sora/no/woto.torrent"
         other_db = Yamazaki::Database.new(track_file, true)
+        #we want to explicitely check the size here
         expect(db.size).to       eq(1)
         expect(other_db.size).to eq(1)
       end
@@ -72,6 +75,7 @@ describe Yamazaki::Database do
         db = Yamazaki::Database.new(track_file, false)
         db << "/sora/no/woto.torrent"
         other_db = Yamazaki::Database.new(track_file, false)
+	#check the size, not its emptiness
         expect(db.size).to       eq(1)
         expect(other_db.size).to eq(0)
       end

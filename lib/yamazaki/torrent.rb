@@ -16,15 +16,16 @@ module Yamazaki
 	class Torrent
 		attr_reader :title, :description, :pub_date, :link, :index
 		attr_accessor :filename
+
 		def initialize(title, description, pub_date, link, index = 0, filename="")
-                        raise ArgumentError.new("you cannot have a negative index!") if index < 0
+			raise ArgumentError.new("you cannot have a negative index!") if index < 0
 
 			@title       = title
 			@description = description
 			@pub_date    = pub_date
 			@link        = link
 			@index       = index
-                        @filename    = filename
+			@filename    = filename
 		end
 
 		def to_s

@@ -41,6 +41,10 @@ module Yamazaki
 			@db.size
 		end
 
+		def empty?
+			@db.size == 0
+		end
+
 		private
 
 		def save
