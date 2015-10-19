@@ -1,7 +1,6 @@
 yamazaki
 ========
 ###Your favourite anime manager
-![yamazaki.png][1]
 
 ----------
 
