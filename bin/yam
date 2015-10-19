@@ -20,7 +20,7 @@ require 'colorb'
 WATCH_DIR = File.join ENV['HOME'], '.watch'
 
 opts = OptionParser.new { |opts|
-	opts.banner = "#{"Yamazaki - Moe doesn't exist in the 3D form!".cyan.bold}\n#{'Usage: yam <command> <arg>'.bold}"
+	opts.banner = "#{"Yamazaki - Moe doesn't exist in the 3D form!".cyan.bold}\n#{'Usage: yam <command> <arg>'.bold}\nCheck more: `yam -h`"
 
 	opts.on( '-s', '--search KEYWORDS', 'Search with given keywords.' ) do |key|
 		Yamazaki.search(key)
