@@ -14,8 +14,8 @@
 
 module Yamazaki
 	module Core
-		LIST   = 'http://www.nyaa.se/?page=rss&cats=1_0'.freeze
-		SEARCH = 'http://www.nyaa.se/?page=rss&term='.freeze
+		LIST   = 'http://www.nyaa.si/?page=rss&cats=1_0'.freeze
+		SEARCH = 'http://www.nyaa.si/?page=rss&term='.freeze
 
 		def list(n = nil)
 			[].tap do |items|
